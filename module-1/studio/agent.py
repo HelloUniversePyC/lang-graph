@@ -1,8 +1,11 @@
 from langchain_core.messages import SystemMessage
 from langchain_openai import ChatOpenAI
-
 from langgraph.graph import START, StateGraph, MessagesState
 from langgraph.prebuilt import tools_condition, ToolNode
+from langchain_google_genai import ChatGoogleGenerativeAI
+from pathlib import Path
+import os
+
 
 def add(a: int, b: int) -> int:
     """Adds a and b.
@@ -33,12 +36,14 @@ def divide(a: int, b: int) -> float:
 
 tools = [add, multiply, divide]
 
+# System message
+sys_msg = "You are a helpful assistant tasked with writing performing arithmetic on a set of inputs."
+
 # Define LLM with bound tools
-llm = ChatOpenAI(model="gpt-4o")
+llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash", system_instruction= sys_msg)
 llm_with_tools = llm.bind_tools(tools)
 
-# System message
-sys_msg = SystemMessage(content="You are a helpful assistant tasked with writing performing arithmetic on a set of inputs.")
+
 
 # Node
 def assistant(state: MessagesState):

@@ -8,11 +8,12 @@ from langchain_core.messages import HumanMessage, SystemMessage
 from langchain_community.document_loaders import WikipediaLoader
 from langchain_tavily import TavilySearch  # updated 1.0
 
-from langchain_openai import ChatOpenAI
+
 
 from langgraph.graph import StateGraph, START, END
+from langchain_google_genai import ChatGoogleGenerativeAI
 
-llm = ChatOpenAI(model="gpt-4o", temperature=0) 
+llm = ChatGoogleGenerativeAI(model="gemini-2.5-flash")
 
 class State(TypedDict):
     question: str
